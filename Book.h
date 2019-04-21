@@ -64,6 +64,8 @@ public:
    // order is alphabetical
    void addBook(string author, string title, string year, int isbn);
 
+   string allBooksString();
+
    void ensureCapacity();
 
    string getAuthor(int n);

@@ -120,6 +120,8 @@ public:
 
       void seeAllRatings();
 
+      string getRowAsString( int accountNum );
+
       void setBookSize( int numberBooks );
 
       void setMemberSize( int numberMembers );

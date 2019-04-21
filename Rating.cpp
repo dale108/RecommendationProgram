@@ -169,10 +169,11 @@ void RatingList::addRating( const Book &book, int memberNumber, int score ) {
 void RatingList::allUserRatings( int accountNumber ) {
    cout << "[ ";
    for(int i = 0; i < bookSize; i++) {
-      cout << inventory[accountNumber][i].getScore() << ", ";
+      cout << inventory[accountNumber][i].getScore() << " ";
    }
    cout << "\n" <<  endl;
 }
+
 
 // Purpose: Ensures the underlying array has capcity for more books to be added.
 // Post: Book capacity is doubled. All values previously added to the list are
@@ -299,6 +300,25 @@ int RatingList::getMostSimilar( int accountNumber ) {
 // Post: Rating input by client relating to book represented bby isbn.
 Rating& RatingList::getRating( int accountNumber, int isbn ) {
      return inventory[accountNumber][isbn];
+}
+
+
+// PURPOSE: returns all the ratings logged by a user passed as a parameter
+// PRE: account number of user does not exceed memberSize
+// POST: returns string of user's ratings.
+string RatingList::getRowAsString( int accountNum ) {
+
+   if( accountNum > memberSize ) {
+      assert( accountNum < memberSize );
+   }
+
+   string retString = "";
+
+   for(int i = 0; i < bookSize; ++i) {
+      retString += to_string(inventory[accountNum][i].getScore());
+      retString += " ";
+   }
+   return retString;
 }
 
 // Purpose: prints all names and numberical ratings by users in data strucute.

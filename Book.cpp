@@ -204,3 +204,17 @@ void BookInventory::seeAllBooks() {
       cout << inventory[i].getTitle() << ", ";
     }
 }
+
+string BookInventory::allBooksString() {
+   string rs = "";
+   for(int i = 0; i < size; i++) {
+      Book b = inventory[i];
+      rs += b.getAuthor();
+      rs += ", ";
+      rs += b.getTitle();
+      rs += ", ";
+      rs += b.getYear();
+      rs += "\n";
+   }
+   return rs;
+}

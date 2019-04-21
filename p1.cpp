@@ -191,7 +191,7 @@ int main() {
     cout << "Please input name of member ";
     cout << "(first character must not be numeric) : ";
     cin >> n;
-    while(!isalpha(n[0])) {//First character must be alpahbetic for file reading
+    while(!isalpha(n[0])) {//First character must be alphabetic for file reading
        string n;
        cout << "Please input name of member ";
        cout << "(first character must not be numeric) : ";
@@ -202,6 +202,7 @@ int main() {
     temp = memberList.getMember(accountNumberGenerator);
     cout << "We added " << temp.getName() << " to our member list!" << endl;
     accountNumberGenerator++;
+    ratingList.setMemberSize(accountNumberGenerator);
 
     if(userLoggedIn) {
        userMenu(user);
@@ -458,8 +459,18 @@ void viewAllRatings(Member user) {
 }
 
 void writeStateToFile() {
-   ofstream fileWriter( "writer.txt" );
-   for(int i = 0; i < 10; ++i) {
-      fileWriter << 10-i << endl;
+
+   // saving here so that method is only called once.
+   int numberMembers = memberList.getSize();
+
+   ofstream bookStateWriter( "bookState.txt" );
+   ofstream fileStateWriter( "ratingState.txt" );
+   bookStateWriter << bookInventory.allBooksString();
+   for(int i = 0; i < numberMembers; ++i) {
+      Member mem = memberList.getMember(i);
+      fileStateWriter << mem.getName();
+      fileStateWriter << "\n";
+      fileStateWriter << ratingList.getRowAsString(mem.getAccountNumber());
+      fileStateWriter << "\n";
    }
 }
