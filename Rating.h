@@ -13,7 +13,11 @@
 * each row the the 2d underlying array corresponds to a user's account number
 * and each column corresponds to the ISBN of a book. For example, the
 * rating at row 5, column 6 represents the rating applied by a user with
-* account number 5 for a book with ISBN 6.
+* account number 5 for a book with ISBN 6. Since ratingList holds both members
+* and books, the client must explicitly set size. Neither of the fields
+*representing how many books or members increment automatically when a new rating
+*is added. This is ensure the program is flexible - number of books does
+*not need to be equivalent to number of members
 
 * Each rating held by RatingList has three pieces of information: Book,
 *  memberNumber and an integer score which represents user applied rating.

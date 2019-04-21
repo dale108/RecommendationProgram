@@ -4,11 +4,10 @@
 // Date: 4/20/2019
 
 // Purpose: p1.cpp contains the main and UI methods for the Project 1,
-// Recommendations assignment.
+// Recommendations assignment. The Extra credit portion of the program writes
+// to files called "bookState.txt" and "fileState.txt". These files can then
+// be read back into the program if the user chooses.
 
-
-//***** change these to .h!!!!
-//***** change these to .h!!!!
 #include "Book.h"
 #include "Member.h"
 #include "Rating.h"
@@ -91,7 +90,8 @@ int main() {
    cin >> ratingFile;
 
    // Initialize bookReader - responsible for initializing all book objects
-   ifstream bookReader(bookFile);
+   // must be converted to c string for cs1 to compile
+   ifstream bookReader(bookFile.c_str());
 
    // Test if file opens
    if( bookReader.is_open() ) {
@@ -137,6 +137,8 @@ int main() {
    else {
       cout << "Rating File not open :(" << endl;
    }
+
+   cout << "\n" << endl;
 
 
    string name;
@@ -222,6 +224,7 @@ int main() {
     string author;
     cout << "Please input author of book : ";
     cin >> author;
+    cout << endl;
     cout << "Please input year book was written: ";
     string year;
     cin >> year;
@@ -256,7 +259,7 @@ void mainMenu() {
       cout << " 2. Add new member                     | " << endl;
       cout << " 3. Add new Book                       | " << endl;
       cout << " 4. Quit                               | " << endl;
-      cout << " ------------------------------------- | " << endl;
+      cout << " -------------------------------------  " << endl;
       cout << "\n" << endl;
 
       input = getInput();
@@ -286,7 +289,7 @@ void userMenu(Member user) {
 
    userLoggedIn = true;
       cout << " +++++++++++++++++++++++++++++++++++++++ " << endl;
-      cout << " User: " << user.getName() << "        + " << endl;
+      cout << " User: " << user.getName() << "          " << endl;
       cout << "                                       + " << endl;
       cout << " 1. Add new member                     + " << endl;
       cout << " 2. Add new Book                       + " << endl;
@@ -347,11 +350,11 @@ int getLoginInfo( int maxIdx ) {
    cout << endl;
    cin >> acctNum;
    while( acctNum < 0 || acctNum > maxIdx) {
-      cout << "Account # must be between 1000 and " << (maxIdx) << endl;
+      cout << "Account # must be between 0 and " << maxIdx << endl;
       cout << "Please enter your account number: ";
       cin >> acctNum;
    }
-   return (acctNum); // leveraging index system.
+   return acctNum; // leveraging index system.
 }
 
 // Purpose: Gets list of recommendations from user with ratings most mostSimilar
@@ -433,7 +436,8 @@ bool selectionValidation( int n) {
 void rateBook() {
    int i;
    int r;
-   cout << "Please input ISBN of book you'd like to rate: ";
+   cout << "Please input ISBN of book you'd like to rate ";
+   cout << " (0 - " << isbnGenerator-1 << "inclusive: ";
    cin >> i;
    cout << endl;
    cout << "Rating must be: -5, -3, 0, 1, 3 or 5" << endl;
@@ -453,8 +457,9 @@ void rateBook() {
 // Pre: user logged in
 // Post: prints all user's ratings to console.
 void viewAllRatings(Member user) {
-   cout << "Displaying ratings for " << user.getName();
+   cout << "Displaying ratings for " << user.getName() << " ";
    ratingList.allUserRatings( user.getAccountNumber() );
+   cout << "]" << endl;
    userMenu(user);
 }
 

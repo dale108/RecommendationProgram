@@ -154,7 +154,9 @@ return *this;
 // Post: Rating added to the list.
 void RatingList::addRating( const Book &book, int memberNumber, int score ) {
 
-   // hashing style ensures
+   // hashing style ensures two dimensional array remains flexible.
+   // otherwise it would be possible for one member to have more ratings
+   // than another.
    if( bookSize > (bookCapacity * .75) ) {
       ensureBookCapacity();
    }
@@ -166,6 +168,10 @@ void RatingList::addRating( const Book &book, int memberNumber, int score ) {
    inventory[memberNumber][i] = d;
 }
 
+
+// Purpose: returns string of all ratings logged by user passed as parameter.
+//Post: returns string representing numerical ratings, indexed by isbn,
+// as a comma seperated string of values.
 void RatingList::allUserRatings( int accountNumber ) {
    cout << "[ ";
    for(int i = 0; i < bookSize; i++) {
@@ -193,7 +199,6 @@ void RatingList::ensureBookCapacity() {
 
    }
 
-   int k = 0;
    for(int k = 0; k < memberCapacity; k++ ) {
       tempArr[k] = inventory[k];
       for(int l = 0; l < bookSize; l++) {
@@ -201,8 +206,8 @@ void RatingList::ensureBookCapacity() {
       }
    }
 
-   for(int i = 0; i < memberCapacity; ++i) {
-      delete [] inventory[i];
+   for(int z = 0; z < memberCapacity; ++z) {
+      delete [] inventory[z];
    }
    delete [] inventory;
 
@@ -227,7 +232,6 @@ void RatingList::ensureMemberCapacity() {
 
    }
 
-   int k = 0;
    for(int k = 0; k < memberCapacity; k++ ) {
       tempArr[k] = inventory[k];
       for(int l = 0; l < bookSize; l++) {
@@ -235,13 +239,14 @@ void RatingList::ensureMemberCapacity() {
       }
    }
 
-   for(int i = 0; i < memberCapacity; ++i) {
-      delete [] inventory[i];
-   }
-   delete [] inventory;
+   for(int z = 0; z < memberCapacity; ++z) {
+     delete [] inventory[z];
+  }
+  delete [] inventory;
 
-   inventory = tempArr;
+  inventory = tempArr;
 }
+
 
 // Purpose: Returns the number of books which have been added to RatingList by
 // client.
@@ -265,8 +270,6 @@ int RatingList::getMostSimilar( int accountNumber ) {
    int mostSimilarUser = -1;
    int mostSimilarSum = 0;
    int compareSum = 0;
-
-   cout << "Member size is: " << memberSize << endl;
 
    for(int i = 0; i < memberSize; ++i) {
       // skip row of user's own ratings.
@@ -300,6 +303,11 @@ int RatingList::getMostSimilar( int accountNumber ) {
 // Post: Rating input by client relating to book represented bby isbn.
 Rating& RatingList::getRating( int accountNumber, int isbn ) {
      return inventory[accountNumber][isbn];
+}
+
+
+int RatingList::getMemberCapacity() {
+   return memberCapacity;
 }
 
 

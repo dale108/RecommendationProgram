@@ -7,19 +7,21 @@
 int main() {
       Book book;
       Book book2;
-      Book book3("something", "nothing", "sorrow", 19);
+      Book book3("something", "nothing", "sorrow", 6);
 
 
-      RatingList ratings(50,50);
+      RatingList ratings(10,10);
 
-      //cout << book2.getIsbn() << endl;
-
-      //ratings.addRating(book, 0, 5);
-      //ratings.addRating(book3, 1, 5);
-      //ratings.addRating(book, 1, 5);
+      cout << ratings.getMemberCapacity() << endl;
+      cout << ratings.getMemberCapacity() << endl;
+      //ratings.setMemberSize(10);
+      //cout << ratings.getMemberCapacity() << endl;
+      ratings.addRating(book, 0, 5);
+      ratings.addRating(book3, 1, 5);
+      cout << ratings.getMemberCapacity() << endl;
+      ratings.addRating(book, 1, 5);
       ratings.addRating(book3, 9, 5);
-      //ratings.addMember(5);
-      //ratings.addMember(9);
+      cout << ratings.getMemberCapacity() << endl;
       //ratings.populate();
       //ratings.populateRow();
       ratings.seeAllRatings();
