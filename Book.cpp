@@ -1,16 +1,21 @@
 // Author: Dale Berg, CPSC 2430 02
-// Filename: Time.cpp
-// Assignment: Lab 01, Time
-// Date: 4/10/2019
+// Filename: Book.h
+// Assignment: P1, Recommendations
+// Date: 4/20/2019
 
-// Purpose:
-// INPUT:
-// PROCESS:
-// OUTPUT:
+// Purpose: This is the implementation of the Book interface. This file
+// contains implementations of both the BookInventory class, and it's internal
+// Book struct. Books are simple objects containing information: the title,
+// author, year and ISBN number. BookInventory has fields for capacity, size,
+// and inventory. Capacity represents the total amount
+// of books BookInventory is capable of holding.
+// Size represents how many Books have been added to the list.
+// Inventory is the actual array of Book objects.
+
 
 #include "Book.h"
 
-#include<iostream>
+#include<iostream> // used for printing list of books to console.
 
 using namespace std;
 
@@ -26,7 +31,8 @@ Book::Book() {
    isbn =0;
 }
 
-
+// Pre: Takes in all information to instatntiate a book object as arguments.
+// Post: Creates a new book object.
 Book::Book(string author, string title, string year, int newIsbn) {
 
    isbn = newIsbn;
@@ -68,6 +74,11 @@ void Book::setAuthor( string newAuthor ) {
    cout << "Build me" << endl;
 }
 
+
+//+++++++++++++++++++++++++++++++
+//     BOOK INVENTORY
+//+++++++++++++++++++++++++++++++
+
 BookInventory::BookInventory( int setCapacity ) {
 
    if( setCapacity > 0 ) {
@@ -100,7 +111,7 @@ BookInventory::~BookInventory() {
 }
 
 
-// Overloaded = operator
+//Overloaded = operator
 // BookInventory& BookInventory::operator =( const BookInventory &inv2 ) {
 //     if( this != &inv2 ) {
 //
@@ -117,23 +128,23 @@ BookInventory::~BookInventory() {
 //        return *this;
 // }
 
-// Purpose:
-// Pre:
-//Post:
+
+// Purpose: Create a new Book object and add it to the BookInventory
+// Pre: Argument represent all information for instatntiating new books objects.
+//Post: Book added to the BookInventory.
 void BookInventory::addBook( string author, string title, string year, int isbn ) {
     if( size >= capacity ) {
        ensureCapacity();
     }
-    //Book b;
     Book b(author, title, year, isbn);
     inventory[size] = b;
     size++;
  }
 
 
-// Purpose:
-// Pre:
-//Post:
+// Purpose: Ensures that the BookInventory has enough space allocated for more
+// books to be added. Ensures that we will not overrun our allocated memory.
+// Post: Capacity of BookInventory is incresed twofold.
 void BookInventory::ensureCapacity() {
 
    capacity = capacity * 2;
@@ -155,61 +166,39 @@ void BookInventory::ensureCapacity() {
    inventory = tempArr;
 }
 
-// Purpose:
-// Pre:
-//Post:
 string BookInventory::getAuthor( int n ) {
    return inventory[n].getAuthor();
 }
 
-
-// Purpose:
-// Pre:
-//Post:
+// Purpose: Returns books located at index postition in BookInventory
+// Pre: Index of book in BookInventory
+//Post: Returns Book at position passed as argument.
 Book& BookInventory::getBook( int index ) {
     return inventory[index];
  }
 
- // Purpose:
- // Pre:
- //Post:
+ // Purpose: Returns the total cpacity of the BookInventory
  int BookInventory::getCapacity() {
     return capacity;
  }
 
 
- // Purpose:
- // Pre:
- //Post:
+ // Purpose: Returns the title of the book located at the given index.
+ // Pre: Index of Book in BookInventory
+ //Post: Returns title of book at position n as a string.
  string BookInventory::getTitle( int n ) {
     return inventory[n].getTitle();
 }
 
 
-// Purpose:
-// Pre:
-//Post:
+// Purpose: Resturns numeric representation of how many elements
+// have been added to the list.
 int BookInventory::getSize() {
    return size;
 }
 
 
- // Purpose:
- // Pre:
- //Post:
-int BookInventory::indexOf( string bookTitle ) {
-
-  for( int i = 0; i < size; i++ ) {
-    if( inventory[i].getTitle() == bookTitle ) {
-        return i;
-     }
-  }
-  return -1;
-}
-
-// Purpose:
-// Pre:
-//Post:
+// Purpose: Prints list of all books in BookInventory to the console.
 void BookInventory::seeAllBooks() {
    for(int i = 0; i < size; i++ ) {
       cout << inventory[i].getTitle() << ", ";

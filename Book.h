@@ -1,8 +1,12 @@
-//Book.h
+// Author: Dale Berg, CPSC 2430 02
+// Filename: Book.h
+// Assignment: P1, Recommendations
+// Date: 4/20/2019
 
-// Dale Berg, CPSC 2430 02
-// P1, Recommendations
-// 4/9/2019
+// Purpose: This class represents a collection of Book objects. The collection,
+// BookInventory, is implemented as a dynamic array of Book objects. Each Book
+// object has 4 pieces of information: author, title, year and isbn.
+
 #ifndef BOOKINVENTORY_H
 #define BOOKINVENTORY_H
 
@@ -19,14 +23,15 @@ public:
    Book(string author, string title, string year, int isbn);
 
    // Getters and setters
+   // order is alphabetical
    int getIsbn() const;
    string getTitle() const;
    string getYear() const;
    string getAuthor() const;
+   void setAuthor( string newAuthor );
    void setIsbn( int newIsbn );
    void setTitle( string newTitle );
    void setYear( string newYear );
-   void setAuthor( string newAuthor );
 
 private:
 
@@ -41,46 +46,39 @@ class  BookInventory {
 
 private:
 
-   int assignIsbn;
    int capacity;
    int size;
-
    Book *inventory; // Pointer to the array
 
 
 public:
 
-   //**** CONSTRUCTORS ****
-
-   // Basic constructor
    BookInventory( int setCapacity );
    // Copy constructor
    BookInventory( const BookInventory& );
    ~BookInventory();
 
-   //BookInventory& operator =( const BookInventory& );
+   BookInventory& operator =( const BookInventory& );
 
-   //*** Getters/Setters
-   // Book name collisions will be handled by a sub menu in which the user will
-   // choose from a list of authors.
 
+   // order is alphabetical
    void addBook(string author, string title, string year, int isbn);
 
-   int getNumberBooks(); // Total number of books in the inventory
+   void ensureCapacity();
 
    string getAuthor(int n);
 
    Book& getBook ( int index );
 
+   int getNumberBooks();
+
    string getTitle(int n);
-
-   void ensureCapacity();
-
-   int indexOf( string bookTitle );
 
    int getCapacity();
 
    int getSize();
+
+   int indexOf( string bookTitle );
 
    void seeAllBooks();
 

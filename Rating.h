@@ -1,20 +1,30 @@
-//Rating.hpp
-// Dale Berg, CPSC 2430 02
-// P1, Recommendations
-// 4/9/2019
+// Author: Dale Berg, CPSC 2430 02
+// Filename: Rating.h
+// Assignment: P1, Recommendations
+// Date: 4/20/2019
 
 /*
-* Purpose: This class represents a collection of ratings. It contains a struct called
-* Rating and a custom vector of ratings submitted by users in the past.
-* Each rating has three pieces of information: Rating, Rating and integer score
-* which represents the score the user has assigned to the Rating. Users may only
-* rate a Rating with the following integer values:
+* Purpose: This class represents a collection of ratings.
+* It contains a struct called Rating and a 2 dimensional dynamic
+* array data structure called RatingList.
+* RatingList has fields for Book and Member capacity and book and member
+* size. Capacities represent how many object may be held by the strucuture, and
+* sizes represent how many of each objct has been added to the list by a user.
+* each row the the 2d underlying array corresponds to a user's account number
+* and each column corresponds to the ISBN of a book. For example, the
+* rating at row 5, column 6 represents the rating applied by a user with
+* account number 5 for a book with ISBN 6.
+
+* Each rating held by RatingList has three pieces of information: Book,
+*  memberNumber and an integer score which represents user applied rating.
+* Users may only rate a book with the following integer values:
 * Hated it: -5
 * Disliked it: -3
 * Haven't read (default): 0
 * Ok: 1
 * Liked it: 3
 * Loved it: 5
+* These values may be chnged by changing the constant assignments in Rating.
 */
 
 #ifndef RATING_H
@@ -27,9 +37,7 @@ using namespace std;
 class Rating {
 
 public:
-   // *******************
-   // * CONSTRUCTORS     *
-   // *******************
+
    Rating();
 
    Rating( Book book, int memberNumber, int rating );
@@ -68,17 +76,8 @@ private:
 
 class RatingList {
 
-private:
-
-   int bookCapacity; // number of columns.
-   int memberCapacity; // number of rows.
-   int bookSize; // number of books in each row.
-   int memberSize; // number of rows actually in use;.
-   Rating **inventory;
-
 public:
 
-      //**** CONSTRUCTORS ****
 
       // Basic constructor
       RatingList( int bookCapacity, int memberCapacity );
@@ -86,26 +85,28 @@ public:
       RatingList( const RatingList& );
       ~RatingList();
 
+      // Assignment operator
       RatingList& operator =( const RatingList& );
 
-      //*** Getters/Setters
+
       // *************
       // * METHODS   *
       // **************
 
-      void addRating( Book &book, int memberNumber, int score );
+      // order is alphabetical
+      void addRating(const Book &book, int memberNumber, int score );
 
       void allUserRatings( int accountNumber );
+
+      void ensureMemberCapacity();
+
+      void ensureBookCapacity();
 
       Rating& getRating ( int index );
 
       Rating& getRating( int accountNumber, int isbn );
 
       int getNumberRatings(); // Total number of Ratings in the inventory
-
-      void ensureMemberCapacity();
-
-      void ensureBookCapacity();
 
       int getBookCapacity();
 
@@ -124,6 +125,14 @@ public:
       void setMemberSize( int numberMembers );
 
       void updateRating( int , int, int);
+
+   private:
+
+      int bookCapacity; // number of columns.
+      int memberCapacity; // number of rows.
+      int bookSize; // number of books added by user.
+      int memberSize; // number of members added by user.
+      Rating **inventory;
 
 };
 

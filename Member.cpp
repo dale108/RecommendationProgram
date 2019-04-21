@@ -1,12 +1,10 @@
 // Author: Dale Berg, CPSC 2430 02
-// Filename:
-// Assignment:
-// Date:
+// Filename: Book.h
+// Assignment: P1, Recommendations
+// Date: 4/20/2019
 
-// Purpose:
-// INPUT:
-// PROCESS:
-// OUTPUT:
+// Purpose: This file contains the implementation of the Memeber struct and
+// MemberList classes.
  #include "Member.h"
  #include<iostream>
 
@@ -88,9 +86,6 @@ MemberList::~MemberList() {
  // Overloaded = operator
  MemberList& MemberList::operator =( const MemberList &inv2 ) {
 
-
-   //if( this != inv2& ) {
-
       delete [] inventory;
 
       capacity = inv2.capacity;
@@ -131,9 +126,9 @@ MemberList::~MemberList() {
     ++size;
 }
 
-// Purpose:
-// Pre:
-// Post:
+// Purpose: Ensures that the memberListy has enough space allocated for more
+// members to be added. Ensures that we will not overrun our allocated memory.
+// Post: Capacity of MemberList is increased twofold.
 void MemberList::ensureCapacity() {
 
    capacity = capacity * 2;
@@ -155,59 +150,44 @@ void MemberList::ensureCapacity() {
    inventory = tempArr;
 }
 
-// Purpose:
-// Pre:
-// Post:
+// Purpose: returns the member at index passed as a parameter
 Member& MemberList::getMember( int index ) {
     return inventory[index];
  }
 
- // Purpose:
- // Pre:
- // Post:
- Member& MemberList::getMemberByNumber( int acct ) {
+ // Purpose: returns the member with the account number passed as parameter.
+ // Pre: integer account number of member to be found.
+ // Post: member with associated accountNumber. Null cannot be returned here,
+ // so client must cverify that member returned has valid state.
+ Member MemberList::getMemberByNumber( int acct ) {
     for(int i = 0; i < size; i++) {
       if(inventory[i].getAccountNumber() == acct) {
          return inventory[i];
       }
    }
-    return getMemberByNumber(acct);
+   // compiler will not allow nullptr return here, so client must check if
+   // member has non-default state.
+   Member m;
+   return m;
 }
 
 
-// Purpose:
-// Pre:
-// Post:
+// Returns last memeber added to the list.
  Member& MemberList::getLastMember() {
     return inventory[size];
 }
 
-
+// Returns the number of members which can be added to the list.
 int MemberList::getCapacity() {
    return capacity;
 }
 
+// Returns number of members added to this list by a client.
 int MemberList::getSize() {
    return size;
 }
 
-// Purpose:
-// Pre:
-// Post:
-int MemberList::indexOf( string memberName ) {
-
-     for( int i = 0; i < size; i++ ) {
-      if( (inventory[i].getName() == memberName) ) {
-           return i;
-        }
-     }
-     return -1;
-}
-
-
-// Purpose:
-// Pre:
-// Post:
+// Purpose: prints names of all memebers in the list to console.
 void MemberList::seeAllMembers() {
    for(int i = 0; i < size; i++ ) {
       cout << "Name : " << inventory[i].getName() << endl;

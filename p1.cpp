@@ -1,19 +1,17 @@
 // Author: Dale Berg, CPSC 2430 02
-// Filename: Time.cpp
-// Assignment: Lab 01, Time
-// Date: 4/10/2019
+// Filename: p1.cpp
+// Assignment: P1, Recommendations
+// Date: 4/20/2019
 
-// Purpose:
-// INPUT:
-// PROCESS:
-// OUTPUT:
+// Purpose: p1.cpp contains the main and UI methods for the Project 1,
+// Recommendations assignment.
 
 
 //***** change these to .h!!!!
 //***** change these to .h!!!!
-#include "Book.cpp"
-#include "Member.cpp"
-#include "Rating.cpp"
+#include "Book.h"
+#include "Member.h"
+#include "Rating.h"
 #include<string>
 #include<fstream>
 #include<sstream>
@@ -25,6 +23,8 @@ using namespace std;
 //  METHOD PROTOTYPES
 //+++++++++++++++++++++++++++++++
 
+
+// prototype statements for methods defined after main.
 void addNewUser();
 void addNewBook();
 void getRecommendations(Member user);
@@ -38,21 +38,21 @@ void logout(Member user);
 void userMenu( Member user );
 void rateBook();
 bool selectionValidation( int n);
+void writeStateToFile();
 void viewAllRatings(Member user);
 
-
-bool userLoggedIn = false; // need to declare this outside main so that functions have
-                  // access.
+// Vairables which need to declare this outside main so
+// that functions below have access.
+bool userLoggedIn = false;
 Member user;
-
 int input;
-
 int bookCounter;
 
-// This ensures we can have lots of accounts
+// Long ensures we can have lots of accounts. Increments to generate unique
+// account numbers as users are added.
 long accountNumberGenerator = 0;
 
-// This increments to generate unique isbn numbers
+// Increments to generate unique isbn numbers
 long isbnGenerator = 0; //
 
 
@@ -80,20 +80,20 @@ RatingList ratingList(100,100); //100/100 is arbitrary, as ratings are added
 int main() {
 
 
-   // get book file name from user
+   // Get book file name from user
    string bookFile;
    cout << "Please input book file name:  " << endl;
    cin >> bookFile;
 
-   // get ratings file name from user
+   // Get ratings file name from user
    string ratingFile;
    cout << "Please input ratings file name:  " << endl;
    cin >> ratingFile;
 
-   // initialize bookReader - responsible for initializing all book objects
+   // Initialize bookReader - responsible for initializing all book objects
    ifstream bookReader(bookFile);
 
-   //test if file opens
+   // Test if file opens
    if( bookReader.is_open() ) {
       cout << "Book File is open! " << endl;
    }
@@ -101,13 +101,13 @@ int main() {
       cout << "Book File not open :(" << endl;
    }
 
-   string line; // need this for file traversal to work
+   string line; // Need this for file traversal to work
    bookCounter = 0;
    string author, title, year;
    while( getline(bookReader, line) ) {
       stringstream   linestream(line);
       string         value;
-      string str[3];
+      string str[3]; // 3 pieces of book information
       for(int i = 0; i < 3; i ++) {
           getline(linestream, value, ',');
           str[i] = value;
@@ -115,15 +115,14 @@ int main() {
        string author = str[0];
        string title = str[1];
        string year = str[2];
-       //cout << "Author: " << author << " Title: " << title << " Year: " << year << endl;
        isbnGenerator++;
        bookInventory.addBook(author, title, year, isbnGenerator);
        bookCounter++;
     }
 
-   //confim books were read in properly
+   //confirm books were read in properly
    cout << "\n" << endl;
-   cout << "Book list is populated! number Books: " << bookCounter << endl;
+   cout << "Number Books: " << bookCounter << endl;
    cout << "\n" << endl;
 
 
@@ -144,9 +143,10 @@ int main() {
    string line2;
    int ratingsIndex = -1;
    Member m;
+   // need to set book size for ensure capacity to function
    ratingList.setBookSize(bookCounter);
 
-
+   // File processing section
    while (ratingReader.peek() != EOF) {
       getline(ratingReader,line2);
       stringstream   lineStream(line2);
@@ -154,26 +154,15 @@ int main() {
       char c = line2[0];
       if(isalpha(c)) { // name case
          name = line2;
-         //cout << "name is: "  << name << endl;
          accountNumberGenerator++;
          Member temp(name, accountNumberGenerator);
          m = temp;
          memberList.addMember(temp);
       }
-      else {
+      else { // numerical rating case
          while(lineStream >> ratingString) {
-            //cout << ratingString << " ";
             int score = stoi(ratingString);
-            //cout << score << ", ";
             ratingList.addRating(bookInventory.getBook(ratingsIndex), accountNumberGenerator, score);
-
-
-            // cout << "Member name being added to: " << m.getName() << endl;
-            // Book z;
-            // z = bookInventory.getBook(ratingsIndex);
-            // cout << "Book being added: " << z.getTitle() << endl;
-            // cout << "rating applied: " << score << endl;
-            // cout << endl;
             ratingsIndex++;
          }
          ratingsIndex =-1;
@@ -181,17 +170,14 @@ int main() {
    }
 
    ratingList.setMemberSize( memberList.getSize() );
-   //cout << "this is bookSizesize of the list:::: " << ratingList.getBookSize() << endl;
-   //cout << "This is the memberSize of the list:: " << ratingList.getMemberSize() <<  endl;
    Member user;
    string newUserName;
    mainMenu();
 
-
-
-   cout << "Thank you for using our Book Recommendation software!" << endl;
+   cout << "Thank you for using our Book Recommendation program!" << endl;
    ratingReader.close();
    bookReader.close();
+   writeStateToFile();
    return 0;
 }
 
@@ -199,7 +185,7 @@ int main() {
  *   UI FUNCTIONS    *
  ********************/
 
- // Purpose: This adds a new member to the memberList
+ // Purpose: Adds a new member to the memberList
  void addNewUser() {
     string n;
     cout << "Please input name of member ";
@@ -226,9 +212,8 @@ int main() {
 
  }
 
- // This executes when the user adds a new book from either menu.
+ // executes when the user adds a new book from either menu.
  void addNewBook() {
-    // Gather book data
     string title;
     cout << "Please input title of book : ";
     cin >> title;
@@ -286,14 +271,19 @@ void mainMenu() {
                  break;
          case 3 : addNewBook();
                   break;
-         case 4 : cout << "Thank you for using our program!" << endl;
+         case 4 :
                   break;
+
       }
    }
 
 // Purpose: When a member is logged in, these are the options
 // to interact with the program.
+// Pre: user currently logged in
+// Post: displays user menu
 void userMenu(Member user) {
+
+   userLoggedIn = true;
       cout << " +++++++++++++++++++++++++++++++++++++++ " << endl;
       cout << " User: " << user.getName() << "        + " << endl;
       cout << "                                       + " << endl;
@@ -330,6 +320,7 @@ void userMenu(Member user) {
 
 // Purpose: takes numerical input from user and validates that it corresponds
 // with a menu option
+// Post: validates input is correct and returns integer selection
 int getInput() {
    int selection;
    cout << "Please enter a selection: ";
@@ -344,11 +335,15 @@ int getInput() {
 
 // Purpose: gets account number as input from the user adn returns indexOf
 // of user in memberList.
+// Purpose: gets login info from user. Validates that input is legal.
+// Pre: maxIdx is account number of last memeber in list.
+// Post: returns accoutn number of member to be logged in.
 int getLoginInfo( int maxIdx ) {
 
    int acctNum = 0;
    cout << "Please enter your account number: ";
-   cout << "hint: any # between 1000 and " << ( maxIdx ) << endl;
+   cout << "hint: any # between 0 and " << ( maxIdx-1 ) << " inclusive ";
+   cout << endl;
    cin >> acctNum;
    while( acctNum < 0 || acctNum > maxIdx) {
       cout << "Account # must be between 1000 and " << (maxIdx) << endl;
@@ -358,11 +353,13 @@ int getLoginInfo( int maxIdx ) {
    return (acctNum); // leveraging index system.
 }
 
+// Purpose: Gets list of recommendations from user with ratings most mostSimilar
+// to the ratings logged by active user.
+// Pre: Memebr obejct representing the current user.
+// Post: Prints list of book recommendations for currently logged in user.
 void getRecommendations(Member user) {
 
-   cout << "user account number is:" << user.getAccountNumber() << endl;
    int mostSimilar = ratingList.getMostSimilar( user.getAccountNumber() );
-   cout <<  "mostSimilar is "<< mostSimilar << endl;
    if(mostSimilar != -1) {
       Member mostSimilarMember =  memberList.getMemberByNumber(mostSimilar);
       string mostSimilarName = mostSimilarMember.getName();
@@ -374,12 +371,14 @@ void getRecommendations(Member user) {
       getLike(mostSimilar);
    }
    else {
-      cout << " Something went wrong ";
+      cout << " Couldn't find most similar user " << endl;
    }
    userMenu(user);
 }
 
-
+// Purpose: prints list of books with numerical rating 5 logged by member
+// represented by memberNumber passed as argument.
+// Pre: integer memberNumber representing user in memberList.
 void getReallyLike( int memberNumber ) {
    int count = 1;
    for(int i = 0; i < bookCounter; ++i) {
@@ -392,6 +391,9 @@ void getReallyLike( int memberNumber ) {
    cout << endl;
 }
 
+// Purpose: prints list of books with numerical rating 4 logged by member
+// represented by memberNumber passed as argument.
+// Pre: integer memberNumber representing user in memberList.
 void getLike( int memberNumber ) {
    int count = 1;
    cout << "Here are the books they liked: " << endl;
@@ -406,7 +408,10 @@ void getLike( int memberNumber ) {
    cout << endl;
 }
 
-
+// Purpose: logs current user out.
+// Pre: user passed as parameter. USer must be stipulated so that their internal
+// isLoggedIn field may be toggled.
+// Post: user logged out of system.
 void logout(Member user) {
       user.logout(); // updates user's field.
       userLoggedIn = false;
@@ -421,6 +426,9 @@ bool selectionValidation( int n) {
    return true;
 }
 
+// Purpose: allows currently loged in user to add a new rating to ratingList
+// Pre: user must be logged in.
+// Post: rating added to ratingList
 void rateBook() {
    int i;
    int r;
@@ -439,9 +447,19 @@ void rateBook() {
    userMenu(user);
 }
 
-
+// Purpose: displays all ratings logged by user currently logged in to the
+// system.
+// Pre: user logged in
+// Post: prints all user's ratings to console.
 void viewAllRatings(Member user) {
    cout << "Displaying ratings for " << user.getName();
    ratingList.allUserRatings( user.getAccountNumber() );
    userMenu(user);
+}
+
+void writeStateToFile() {
+   ofstream fileWriter( "writer.txt" );
+   for(int i = 0; i < 10; ++i) {
+      fileWriter << 10-i << endl;
+   }
 }

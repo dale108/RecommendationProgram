@@ -1,20 +1,23 @@
-//Member.h
-//
-#ifndef MEMBER_H
-#define MEMBER_H
+// Author: Dale Berg, CPSC 2430 02
+// Filename: Member.h
+// Assignment: P1, Recommendations
+// Date: 4/20/2019
 
-// MemberInventory functions as a repository for Member objects. Member is a
+// Purpose: MemberInventory is a dynamic array of Member objects. Member is a
 // private struct which contains 3 pieces of information: name, account number,
 // and a boolean field representing whether the user is currently logged in.
 // This class also features a p1Vector of users who are currently logged in,
 // so that
+
+#ifndef MEMBER_H
+#define MEMBER_H
 
 #include<string>
 
 using namespace std;
 
 
-class Member {
+struct Member {
 
 private:
 
@@ -76,7 +79,7 @@ public:
 
    Member& getMember ( int index );
 
-   Member& getMemberByNumber( int acct );
+   Member getMemberByNumber( int acct );
 
    int getNumberMembers(); // Total number of Members in the inventory
 
@@ -85,8 +88,6 @@ public:
     Member& getUserByNumber( int accountNum );
 
    int getSize();
-
-   int indexOf( string memberName );
 
    void seeAllMembers();
 
