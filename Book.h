@@ -28,10 +28,7 @@ public:
    string getTitle() const;
    string getYear() const;
    string getAuthor() const;
-   void setAuthor( string newAuthor );
-   void setIsbn( int newIsbn );
-   void setTitle( string newTitle );
-   void setYear( string newYear );
+
 
 private:
 
@@ -43,12 +40,6 @@ private:
 };
 
 class  BookInventory {
-
-private:
-
-   int capacity;
-   int size;
-   Book *inventory; // Pointer to the array
 
 
 public:
@@ -83,6 +74,13 @@ public:
    int indexOf( string bookTitle );
 
    void seeAllBooks();
+
+private:
+
+   int capacity;
+   int size;
+   Book *inventory; // Pointer to the array
+
 
 };
 

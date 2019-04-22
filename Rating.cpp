@@ -45,6 +45,10 @@ void Rating::setRating(int newRating) {
    rating = newRating;
 }
 
+string Rating::getBookTitle() {
+   return book.getTitle();
+}
+
 // Private method to ensure that vlaues are within the bounds of accepted
 // book ratings.
 // Pre: numerical rating passed by user.
@@ -173,11 +177,11 @@ void RatingList::addRating( const Book &book, int memberNumber, int score ) {
 //Post: returns string representing numerical ratings, indexed by isbn,
 // as a comma seperated string of values.
 void RatingList::allUserRatings( int accountNumber ) {
-   cout << "[ ";
-   for(int i = 0; i < bookSize; i++) {
-      cout << inventory[accountNumber][i].getScore() << " ";
+   for(int i = 1; i < bookSize; i++) {
+      cout << "Book: " << inventory[accountNumber][i].getBookTitle();
+      cout << " => Rating: " << inventory[accountNumber][i].getScore() << endl;
    }
-   cout << "\n" <<  endl;
+   cout << "\n" << endl;
 }
 
 
@@ -329,7 +333,8 @@ string RatingList::getRowAsString( int accountNum ) {
    return retString;
 }
 
-// Purpose: prints all names and numberical ratings by users in data strucute.
+// Purpose: prints all member names and associated numerical ratings by users
+// constained in this data strucute.
 void RatingList::seeAllRatings() {
    for(int row = 0; row < memberCapacity; row++) {
       cout << "Member Number is:" << inventory[row][0].getMemberNumber() << " [ ";
@@ -342,14 +347,17 @@ void RatingList::seeAllRatings() {
    cout << endl;
 }
 
+// Purpose: sets bookSize to given parameter
 void RatingList::setBookSize( int numberBooks ) {
    bookSize = numberBooks;
 }
 
+// Purpose: sets memberSize to given parameter
 void RatingList::setMemberSize( int numberMembers ) {
    memberSize = numberMembers;
 }
 
+// Purpose: updates rating without creating new rating object
 void RatingList::updateRating( int isbn, int memberNumber, int rating) {
    inventory[memberNumber][isbn].setRating(rating);
 }

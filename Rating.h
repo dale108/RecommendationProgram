@@ -15,12 +15,12 @@
 * rating at row 5, column 6 represents the rating applied by a user with
 * account number 5 for a book with ISBN 6. Since ratingList holds both members
 * and books, the client must explicitly set size. Neither of the fields
-*representing how many books or members increment automatically when a new rating
+*representing how many elements increment automatically when a new rating
 *is added. This is ensure the program is flexible - number of books does
 *not need to be equivalent to number of members
 
 * Each rating held by RatingList has three pieces of information: Book,
-*  memberNumber and an integer score which represents user applied rating.
+* memberNumber and an integer score which represents user applied rating.
 * Users may only rate a book with the following integer values:
 * Hated it: -5
 * Disliked it: -3
@@ -28,7 +28,6 @@
 * Ok: 1
 * Liked it: 3
 * Loved it: 5
-* These values may be chnged by changing the constant assignments in Rating.
 */
 
 #ifndef RATING_H
@@ -38,7 +37,7 @@
 
 using namespace std;
 
-class Rating {
+struct Rating {
 
 public:
 
@@ -46,10 +45,6 @@ public:
 
    Rating( Book book, int memberNumber, int rating );
 
-
-   // *******************
-   // * METHODS     *
-   // *******************
    string getBookTitle();
 
    int getMemberNumber();
@@ -82,6 +77,8 @@ class RatingList {
 
 public:
 
+   // order is alphabetical, save for constructors and operators
+
 
       // Basic constructor
       RatingList( int bookCapacity, int memberCapacity );
@@ -92,12 +89,6 @@ public:
       // Assignment operator
       RatingList& operator =( const RatingList& );
 
-
-      // *************
-      // * METHODS   *
-      // **************
-
-      // order is alphabetical
       void addRating(const Book &book, int memberNumber, int score );
 
       void allUserRatings( int accountNumber );

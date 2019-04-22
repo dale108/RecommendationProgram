@@ -19,12 +19,6 @@ using namespace std;
 
 struct Member {
 
-private:
-
-   string name; // allows duplicates
-   long accountNumber; // long to feature many users
-   bool loggedIn;
-
 
 public:
 
@@ -40,18 +34,18 @@ public:
 
    int getAccountNumber();
 
+private:
+
+   string name; // allows duplicates
+   long accountNumber; // long to feature many users
+   bool loggedIn; // represents whether user is logged in
+
+
 
 };
 
 
 class  MemberList {
-
-private:
-
-   int capacity;
-   int size;
-   int numElements;
-   Member *inventory;
 
 
 public:
@@ -92,6 +86,13 @@ public:
    void seeAllMembers();
 
    void printAllInfo();
+
+private:
+
+   int capacity;
+   int size;
+   int numElements;
+   Member *inventory;
 
 };
 

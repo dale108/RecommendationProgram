@@ -20,7 +20,8 @@ Member::Member() {
    accountNumber = 0;
 }
 
-
+// Purpose: default constructor sets member's fields to information passed as
+// parameters
 Member::Member( string name, int accountNumber) {
 
    this->name = name;
@@ -41,11 +42,12 @@ bool Member::isLoggedIn() {
    return loggedIn;
 }
 
-
+// Purpose: toggles member's isLoggedIn field
 void Member::login() {
    loggedIn = true;
 }
 
+// Purpose: toggles member's isLoggedIn field
 void Member::logout() {
    loggedIn = false;
 }
@@ -99,9 +101,8 @@ MemberList::~MemberList() {
       return *this;
 }
 
-// Purpose:
-// Pre:
-// Post:
+// Purpose: adds member to list, setting their fields to information passed
+// as parameters
  void MemberList::addMember( string name, int accountNumber ) {
 
     if( size >= capacity ) {
@@ -113,9 +114,7 @@ MemberList::~MemberList() {
     size++;
  }
 
- // Purpose:
- // Pre:
- // Post:
+ // Purpose: Adds member to list by reference to existing member object
  void MemberList::addMember( Member& m ) {
 
     if( size >= capacity ) {

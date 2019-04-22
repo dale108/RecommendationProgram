@@ -18,9 +18,9 @@
 
 using namespace std;
 
-//+++++++++++++++++++++++++++++++
-//  METHOD PROTOTYPES
-//+++++++++++++++++++++++++++++++
+//+++++++++++++++++++++++++++++++++++++++++++++++++
+//  METHOD PROTOTYPES / CLASS VARIABLE DECLARATIONS
+//+++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 // prototype statements for methods defined after main.
@@ -204,7 +204,7 @@ int main() {
     temp = memberList.getMember(accountNumberGenerator);
     cout << "We added " << temp.getName() << " to our member list!" << endl;
     accountNumberGenerator++;
-    ratingList.setMemberSize(accountNumberGenerator);
+    ratingList.setMemberSize(accountNumberGenerator);//increments for all users
 
     if(userLoggedIn) {
        userMenu(user);
@@ -239,7 +239,7 @@ int main() {
     cout << " to our book list! The isbn is: " << temp.getIsbn() << endl;
     cout << isbnGenerator << endl;
     isbnGenerator++;
-    ratingList.setBookSize(isbnGenerator);
+    ratingList.setBookSize(isbnGenerator); // increments for all users
 
     if(userLoggedIn) {
        userMenu(user);
@@ -437,7 +437,7 @@ void rateBook() {
    int i;
    int r;
    cout << "Please input ISBN of book you'd like to rate ";
-   cout << " (0 - " << isbnGenerator-1 << "inclusive: ";
+   cout << " (0 - " << isbnGenerator-1 << ") inclusive: ";
    cin >> i;
    cout << endl;
    cout << "Rating must be: -5, -3, 0, 1, 3 or 5" << endl;
@@ -459,10 +459,13 @@ void rateBook() {
 void viewAllRatings(Member user) {
    cout << "Displaying ratings for " << user.getName() << " ";
    ratingList.allUserRatings( user.getAccountNumber() );
-   cout << "]" << endl;
    userMenu(user);
 }
 
+// Purpose: writes current state of program to text files on exit. This is
+// intended to fulfill the extra credit assignment.
+// Post: writes data in assignmetn specified format to .txt files called
+// bookState.txt and ratingState.txt
 void writeStateToFile() {
 
    // saving here so that method is only called once.

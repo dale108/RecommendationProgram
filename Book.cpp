@@ -1,5 +1,5 @@
 // Author: Dale Berg, CPSC 2430 02
-// Filename: Book.h
+// Filename: Book.cpp
 // Assignment: P1, Recommendations
 // Date: 4/20/2019
 
@@ -57,23 +57,6 @@ string Book::getAuthor() const {
    return author;
 }
 
-void Book::setIsbn( int newIsbn ) {
-   isbn = newIsbn;
-}
-
-void Book::setTitle( string newTitle ) {
-   title = newTitle;
-}
-
-void Book::setYear( string newYear ) {
-   cout << "Build me" << endl;
-}
-
-void Book::setAuthor( string newAuthor ) {
-
-   cout << "Build me" << endl;
-}
-
 
 //+++++++++++++++++++++++++++++++
 //     BOOK INVENTORY
@@ -112,21 +95,22 @@ BookInventory::~BookInventory() {
 
 
 //Overloaded = operator
-// BookInventory& BookInventory::operator =( const BookInventory &inv2 ) {
-//     if( this != &inv2 ) {
-//
-//        delete [] inventory;
-//
-//        capacity = inv2.capacity;
-//        size = inv2.size;
-//        inventory = new Book[capacity];
-//
-//        for( int i = 0; i < size; i++ ) {
-//           inventory[i] = inv2.inventory[i];
-//        }
-//
-//        return *this;
-// }
+BookInventory& BookInventory::operator =( const BookInventory &inv2 ) {
+    if( this != &inv2 ) {
+
+       delete [] inventory;
+
+       capacity = inv2.capacity;
+       size = inv2.size;
+       inventory = new Book[capacity];
+
+       for( int i = 0; i < size; i++ ) {
+          inventory[i] = inv2.inventory[i];
+       }
+    }
+
+       return *this;
+}
 
 
 // Purpose: Create a new Book object and add it to the BookInventory
@@ -205,6 +189,8 @@ void BookInventory::seeAllBooks() {
     }
 }
 
+// Purpose: returns a string representation of all books in the inventory
+// seperated by commas.
 string BookInventory::allBooksString() {
    string rs = "";
    for(int i = 0; i < size; i++) {
